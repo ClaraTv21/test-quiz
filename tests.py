@@ -95,3 +95,24 @@ def test_choice_with_empty_text():
     with pytest.raises(Exception) as info_do_erro:
         question.add_choice('', False)
     assert str(info_do_erro.value) == 'Text cannot be empty'
+
+
+# PARTE 3: Testes usando Fixtures
+
+@pytest.fixture
+def question_with_choices():
+    question = Question(title='Quanto é 2 + 2?')
+    question.add_choice('3', False)
+    question.add_choice('4', True)
+    question.add_choice('5', False)
+    
+    return question
+
+def test_fixture_choices_count(question_with_choices):
+    assert len(question_with_choices.choices) == 3
+
+def test_fixture_correct_choice(question_with_choices):
+    correct_choice = question_with_choices.choices[1]
+    
+    assert correct_choice.is_correct == True
+    assert correct_choice.text == '4'
